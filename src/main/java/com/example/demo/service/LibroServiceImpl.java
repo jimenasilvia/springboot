@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.time.Year;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,24 @@ public class LibroServiceImpl implements LibroService {
 
 	@Override
 	public Libro add(Libro libro) {
+		//verificar campos no sean string vacios
+		publicacionValida(libro);
 		// TODO Auto-generated method stub
 		return libroRepository.save(libro);
+	}
+
+
+
+
+
+	public void publicacionValida(Libro libro) {
+		// TODO Auto-generated method stub
+		Integer anio = libro.getAnioPublicacion(); 
+
+	    if (anio != null && anio > Year.now().getValue()) {
+	        throw new IllegalArgumentException("El año de publicación no puede ser posterior al año actual");
+	    }
+		
 	}
 
 	@Override
